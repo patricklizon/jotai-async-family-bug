@@ -9,13 +9,16 @@ import "./styles/reset.css";
 const node = document.getElementById("root");
 if (!node) throw new Error("Root element does not exist");
 
-const peopleFamilyAtom = atomFamily((param: { id: number }) => {
-  return atom(async () => {
-    return (
-      await fetch(`https://swapi.dev/api/people/${param.id}`)
-    ).json() as Promise<{ name: string }>;
-  });
-});
+const peopleFamilyAtom = atomFamily(
+  (param: { id: number }) => {
+    return atom(async () => {
+      return (
+        await fetch(`https://swapi.dev/api/people/${param.id}`)
+      ).json() as Promise<{ name: string }>;
+    });
+  },
+  (a, b) => a.id === b.id
+);
 
 /**
  *
